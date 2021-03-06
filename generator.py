@@ -1,33 +1,37 @@
 import string
 
 
-def generate_pattern(size):
-  '''prints a pattern based off an alphabet slice of length `size`'''
-  alphabet = string.ascii_lowercase[:size]
-  reverse_alphabet = alphabet[::-1]
-  alphabet_palindrome = reverse_alphabet + alphabet[1:]
-  max_line_length = len('-'.join(alphabet_palindrome))
+def generate_pattern(symbols=[], separator='-', size=12):
+  '''
+  prints a pattern based off of provided symbols
+  if no symbols provided, uses alphabet slice of length `size`
+  '''
+  symbols = symbols if symbols else string.ascii_lowercase[:size]
+  reverse_symbols = symbols[::-1]
+  max_symbols_palindrome = reverse_symbols + symbols[1:]
+  # derive width of pattern by creating row at its widest
+  max_row_length = len(separator.join(max_symbols_palindrome))
   ascending_rows = []
-
+ 
 
   def create_row(letters):
-    filled_row = letters.center(max_line_length, '-')
+    filled_row = letters.center(max_row_length, '-')
     ascending_rows.append(filled_row)
 
-
-  for index, char in enumerate(reverse_alphabet):
+ 
+  for index, char in enumerate(reverse_symbols):
     if index == 0:
       create_row(char)
     else:
-      letters = reverse_alphabet[:index + 1] + alphabet[len(alphabet) - index:]
-      dashed_letters = '-'.join(letters)
-      create_row(dashed_letters)
-  
-  descending_rows = (ascending_rows[::-1])[1:]
-  rows = ascending_rows + descending_rows
- 
+      symbols_palindrome = reverse_symbols[:index + 1] + symbols[len(symbols) - index:]
+      separated_symbols_palindrome = separator.join(symbols_palindrome)
+      create_row(separated_symbols_palindrome)
+  # concat descending rows to the ascending rows
+  rows = ascending_rows + (ascending_rows[::-1])[1:]
+
+
   for row in rows:
     print(row)
 
 
-generate_pattern(10)
+generate_pattern(symbols=['≈', 'ø', '#'] * 5)
