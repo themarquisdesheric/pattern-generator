@@ -2,6 +2,7 @@ import string
 
 
 def generate_pattern(size):
+  '''prints a pattern based off an alphabet slice of length `size`'''
   alphabet = string.ascii_lowercase[:size]
   reverse_alphabet = alphabet[::-1]
   alphabet_palindrome = reverse_alphabet + alphabet[1:]
@@ -10,20 +11,20 @@ def generate_pattern(size):
 
 
   def create_row(letters):
-    dash_count = max_line_length - len(letters)
-    dashes = (dash_count // 2) * '-'
-    return dashes + letters + dashes
+    filled_row = letters.center(max_line_length, '-')
+    ascending_rows.append(filled_row)
 
 
   for index, char in enumerate(reverse_alphabet):
     if index == 0:
-      ascending_rows.append(create_row(char))
+      create_row(char)
     else:
       letters = reverse_alphabet[:index + 1] + alphabet[len(alphabet) - index:]
       dashed_letters = '-'.join(letters)
-      ascending_rows.append(create_row(dashed_letters))
-  # concat descending rows to the ascending rows
-  rows = ascending_rows + (ascending_rows[::-1])[1:]
+      create_row(dashed_letters)
+  
+  descending_rows = (ascending_rows[::-1])[1:]
+  rows = ascending_rows + descending_rows
  
   for row in rows:
     print(row)
