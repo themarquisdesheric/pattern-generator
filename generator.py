@@ -1,7 +1,7 @@
 import string
 
 
-def generate_pattern(symbols=[], separator='-', size=12):
+def generate_pattern(symbols=[], separator='-', size=12, centerpiece=''):
   '''
   prints a pattern based off of provided symbols
   if no symbols provided, uses alphabet slice of length `size`
@@ -15,7 +15,7 @@ def generate_pattern(symbols=[], separator='-', size=12):
  
 
   def create_row(letters):
-    filled_row = letters.center(max_row_length, '-')
+    filled_row = letters.center(max_row_length, separator)
     ascending_rows.append(filled_row)
 
  
@@ -23,15 +23,25 @@ def generate_pattern(symbols=[], separator='-', size=12):
     if index == 0:
       create_row(char)
     else:
-      symbols_palindrome = reverse_symbols[:index + 1] + symbols[len(symbols) - index:]
+      if centerpiece and index == len(reverse_symbols) - 1:
+        symbols_palindrome = reverse_symbols[:index] + [centerpiece] + symbols[len(symbols) - index:]
+      else:
+        symbols_palindrome = reverse_symbols[:index + 1] + symbols[len(symbols) - index:]
       separated_symbols_palindrome = separator.join(symbols_palindrome)
       create_row(separated_symbols_palindrome)
   # concat descending rows to the ascending rows
   rows = ascending_rows + (ascending_rows[::-1])[1:]
 
-
   for row in rows:
     print(row)
 
 
-generate_pattern(symbols=['≈', 'ø', '#'] * 5)
+# print alphabet range
+for num in range(2, 27):
+  generate_pattern(size=num)
+  print('\n')
+
+
+# print emoji pattern
+# emojis = [emoji for emoji in '🥵😱😧']
+# generate_pattern(symbols=emojis * 2, separator='💀', centerpiece='👹')
