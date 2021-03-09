@@ -1,7 +1,5 @@
 # pattern-generator
 
-Intrigued by a HackerRank challenge, I decided to investigate pattern generation more thoroughly.
-
 ```python
 emojis = [emoji for emoji in '🪵🪵🪵']
 generate_pattern(symbols=emojis * 3, separator='🌲', centerpiece='🍄', border='🌳')
